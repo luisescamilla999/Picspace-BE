@@ -4,6 +4,7 @@ const routesList = require("./routes")
 const express = require('express');
 const morgan = require('morgan')
 const dotenv = require("dotenv")
+const path = require('path');
 const cors = require("cors")
 
 const port = process.env.PORT || 3525;
@@ -16,6 +17,8 @@ app.use(bodyParser.json());
 app.use(express.json())
 app.use(morgan('tiny'))
 app.use(cors())
+
+app.use(express.static(path.join(__dirname, 'public')))
 
 app.get("/", (_req, res) => {
 	res.send("Backend working c:");
