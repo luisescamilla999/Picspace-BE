@@ -1,26 +1,14 @@
-const mysql= require('mysql');
+require('dotenv').config()
+const mysql = require('mysql2');
 
-if (process.env.NODE_ENV != 'production') {
-    require('dotenv').config()
-}//configuration for using environment variables
-
-//Create all the parameters that are required for the connection
-const connection=mysql.createConnection({
-    host:process.env.host,
-    user:process.env.user,
-    password:process.env.password,
-    port:3306,
-    database:process.env.database
+//Poner credenciales de aws aqui
+const pool = mysql.createPool({
+    host:"localhost",
+    user:"root",
+    password:"password",
+    //port:3306,
+    database:"PicSpace"
 });
-
-connection.connect((err)=>{
-    if(err){
-        console.log('Error: '+err)
-    }else{
-        console.log('----> Database connect success')
-    }
-});
-
 
 //connection export
-module.exports=connection;
+module.exports = pool.promise();
