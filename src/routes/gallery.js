@@ -3,5 +3,5 @@ const {gallery} = require("../controllers")
 
 router.get("/", gallery.getImages);
 router.get("/album", gallery.getAlbums);
-router.post("/", gallery.deleteImage);
+router.delete("/:imageId", gallery.deleteImage);
 module.exports = router
