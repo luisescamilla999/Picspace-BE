@@ -17,7 +17,7 @@ const newUser = async(req, res = response)=>{
     } = req.body;
     
     const date = new Date(joinDate);
-    const [user,] = await db.query("select * from user where email=?",[email]);
+    const [user,] = await db.query("select * from User where email=?",[email]);
 
     if(user.length === 0){
 
