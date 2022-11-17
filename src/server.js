@@ -6,6 +6,7 @@ const morgan = require('morgan')
 const dotenv = require("dotenv")
 const path = require('path');
 const cors = require("cors")
+const isauth = require('./middleware/isauth');
 
 const port = process.env.PORT || 3525;
 const app = express();
@@ -25,7 +26,11 @@ app.get("/", (_req, res) => {
 });
 
 for (const { name, router } of routesList) {
-	app.use(`/api/${name}`, router);
+	if (name === "login" || name === "register") {
+		app.use(`/api/${name}`, router);
+	} else {
+		app.use(`/api/${name}`, isauth, router);
+	}
 }
 
 // Server uplift
