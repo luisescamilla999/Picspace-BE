@@ -39,6 +39,16 @@ const upload = async (req, res = response) => {
       id = 1;
     }
 
+    // Validar que el albumId exista
+    const albumId = req.body.albumId;
+    const [album,] = await db.query("select * from album where albumId = ?", [albumId]);
+    if (album.length === 0) {
+      return res.status(400).json({
+        ok: false,
+        message: `El albumId ${albumId} no existe en la base de datos`,
+      });
+    }
+
     // Construir el objeto de la imagen para la base de datos
     let image = {
       imageId: id,
@@ -46,7 +56,7 @@ const upload = async (req, res = response) => {
       url: req.file.path,
       sizeInBytes: req.file.size,
       uploadDate: new Date(),
-      albumId: 2 // Sustituir el albumId por el album seleccionado
+      albumId: albumId
     };
 
     // Insertar la imagen en la base de datos
