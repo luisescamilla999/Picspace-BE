@@ -42,11 +42,11 @@ const upload = async (req, res = response) => {
     // Construir el objeto de la imagen para la base de datos
     let image = {
       imageId: id,
-      fileName: req.file.filename,
-      url: req.file.path,
+      fileName: req.file.originalname,
+      url: req.file.filename,
       sizeInBytes: req.file.size,
       uploadDate: new Date(),
-      albumId: 2 // Sustituir el albumId por el album seleccionado
+      albumId: req.body.albumId // Sustituir el albumId por el album seleccionado
     };
 
     // Insertar la imagen en la base de datos
