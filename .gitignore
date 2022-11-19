@@ -1,3 +1,8 @@
+# Images
+*.jpg
+*.png
+*.jpeg
+
 # Compiled output
 /dist
 /tmp
