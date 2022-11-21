@@ -4,6 +4,7 @@ const uploads = require("./uploads")
 const gallery = require("./gallery")
 const maintenance = require("./maintenance")
 const binnacle = require("./binnacle")
+const dashboard = require("./dashboard")
 
 module.exports = {
     login,
@@ -11,5 +12,6 @@ module.exports = {
     uploads,
     gallery,
     maintenance,
-    binnacle
+    binnacle,
+    dashboard
 }

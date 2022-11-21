@@ -5,6 +5,7 @@ const galleryRouter = require("./gallery")
 const deleteRouter = require("./gallery")
 const maintenanceRouter = require("./maintenance")
 const binnacleRouter = require ("./binnacle")
+const dashboardRouter = require("./dashboard")
 
 module.exports = [
     {name: "register" , router: registerRouter},
@@ -14,4 +15,5 @@ module.exports = [
     {name: "deleteImage", router: deleteRouter},
     {name: "maintenance", router: maintenanceRouter},
     {name: "admin/binnacle", router: binnacleRouter},
+    {name: "dashboard", router: dashboardRouter},
 ]
