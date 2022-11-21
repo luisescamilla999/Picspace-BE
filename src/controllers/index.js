@@ -3,11 +3,13 @@ const register = require("./register")
 const uploads = require("./uploads")
 const gallery = require("./gallery")
 const maintenance = require("./maintenance")
+const dashboard = require("./dashboard")
 
 module.exports = {
     login,
     register,
     uploads,
     gallery,
-    maintenance
+    maintenance,
+    dashboard
 }
