@@ -145,10 +145,58 @@ const getDateImage = async (req = request, res = response) => {
 
 }
 
+const getPlanUse = async (req = request, res = response) => {
+
+    let sql = `select storageplan.name, count(user.storagePlanId) as amount from user inner join storageplan on user.storagePlanId = storageplan.storagePlanId where user.storagePlanId != -1 group by user.storagePlanId;`
+    
+    try {
+        let [rows,] = await db.query(sql);
+
+        if (rows.length == 0)
+            res.status(400).json(CONS.emptyData);
+        else if (rows.length != 0) {
+            let chartLabel = [];
+            let chartData = [];
+            let up = {
+                label: "",
+                value: -1
+            }
+            let down = {
+                label: rows[0].name,
+                value: rows[0].amount
+            }
+            rows.map(data => {
+                chartLabel.push(data.name)
+                chartData.push(data.amount)
+                if (data.amount > up.value) {
+                    up = {
+                        label: data.name,
+                        value: data.amount
+                    }
+                }
+                if (data.amount <= down.value) {
+                    down = {
+                        label: data.name,
+                        value: data.amount
+                    }
+                }
+            })
+
+            res.status(200).json({ 'labels': chartLabel, 'data': chartData, 'up': up, 'down': down })
+        }
+
+    } catch (error) {
+        console.log(error)
+        res.status(404).json(CONS.SQLErrors(error.sqlMessage));
+    }
+
+}
+
 module.exports = {
     getTotalUser,
     getUseStorage,
     getTotalImages,
     getDateRegister,
-    getDateImage
+    getDateImage,
+    getPlanUse
 }
