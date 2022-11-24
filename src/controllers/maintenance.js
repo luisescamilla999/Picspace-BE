@@ -1,6 +1,7 @@
 const db = require('../config/connection');
 const { response, request } = require('express');
 const CONS = require("../utils/maintenance.constants")
+const bcrypt = require('bcrypt');
 
 const getDataTables = async (req = request, res = response) => {
     let { table } = req.params
@@ -21,11 +22,15 @@ const getDataTables = async (req = request, res = response) => {
 
 const insertData = async (req = request, res = response) => {
     const { table } = req.params
-    const { data } = req.body
-
+    const data = req.body
     if (data == undefined)
         res.status(400).json(CONS.unspecifiedData)
     
+    if (data.password != undefined) {
+        const salt = await bcrypt.genSaltSync(10);
+        data.password = await bcrypt.hashSync(data.password, salt);
+    }
+
     try {
         await db.query(`INSERT INTO ${table} set ?`, [data]);
         res.status(201).json(CONS.successfulInsert)
@@ -36,7 +41,7 @@ const insertData = async (req = request, res = response) => {
 
 const updateData = async (req = request, res = response) => {
     const { table, id } = req.params
-    const { data } = req.body
+    const data = req.body
 
     if (data == undefined)
         res.status(400).json(CONS.unspecifiedData)
