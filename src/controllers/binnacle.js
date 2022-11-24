@@ -8,7 +8,7 @@ const getBinnacles = async (req,res) => {
     let select = ` SELECT date_format(log.eventDate,'%d/%m/%Y') as dateEvent,time_format(log.eventDate,
                     '%H:%i') as hourEvent , tableData.name as modifiedTableId, user.userName as userId,
                     eventType.name as eventTypeId FROM log
-                    INNER JOIN tabledata ON log.modifiedTableId= tableData.tableId
+                    INNER JOIN tabledata ON log.modifiedTableId= tableData.tableDataId
                     INNER JOIN user ON log.userId= user.userId
                     INNER JOIN eventtype  ON log.eventTypeId= eventType.eventTypeId`
     let where= ' WHERE '
