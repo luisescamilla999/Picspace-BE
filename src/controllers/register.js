@@ -53,14 +53,26 @@ const newUser = async(req, res = response)=>{
         await db.query('INSERT INTO User set?',[usr]);
         const token = await generarJWT(id,firstName);
 
+        const usrInfo = {
+            userId: usr.userId,
+            firstName: usr.firstName,
+            secondName: usr.secondName,
+            firstSurname: usr.firstSurname,
+            secondSurname: usr.secondSurname,
+            userName: usr.userName,
+            usedStorage: usr.usedStorage,
+            userTypeId: usr.userTypeId,
+            storagePlanId: usr.storagePlanId
+        }
+
         return res.status(200).json({
             ok : true,
             msg: "¡Usuario registrado exitosamente!",
             firstName,
             firstSurname,
             id,
-            token
-            
+            token,
+            usr: usrInfo
         })
 
     }
