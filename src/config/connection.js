@@ -3,11 +3,10 @@ const mysql = require('mysql2');
 
 //Poner credenciales de aws aqui
 const pool = mysql.createPool({
-    host:"localhost",
-    user:"root",
-    password:"root",
-    //port:3306,
-    database:"picspace"
+    host: process.env.host,
+    user: process.env.user,
+    password: process.env.password,
+    database: process.env.database
 });
 
 // Controlar errores de conexión
