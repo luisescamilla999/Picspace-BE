@@ -100,7 +100,7 @@ const getDateRegister = async (req = request, res = response) => {
 const getDateImage = async (req = request, res = response) => {
     const { firstDate, lastDate } = req.body
 
-    let sql = `select date_format(uploadDate,'%d/%m/%Y') as date, count(*) as amount from image where uploadDate between '${firstDate}' AND '${lastDate}' group by uploadDate;`
+    let sql = `select date_format(uploadDate,'%d/%m/%Y') as date, count(*) as amount from Image where uploadDate between '${firstDate}' AND '${lastDate}' group by uploadDate;`
     
     try {
         let [rows,] = await db.query(sql);
@@ -147,7 +147,7 @@ const getDateImage = async (req = request, res = response) => {
 
 const getPlanUse = async (req = request, res = response) => {
 
-    let sql = `select storageplan.name, count(user.storagePlanId) as amount from user inner join storageplan on user.storagePlanId = storageplan.storagePlanId where user.storagePlanId != -1 group by user.storagePlanId;`
+    let sql = `select StoragePlan.name, count(User.storagePlanId) as amount from User inner join StoragePlan on User.storagePlanId = StoragePlan.storagePlanId where User.storagePlanId != -1 group by User.storagePlanId;`
     
     try {
         let [rows,] = await db.query(sql);

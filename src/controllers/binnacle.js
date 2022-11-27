@@ -5,17 +5,17 @@ const getBinnacles = async (req,res) => {
 
     const {eventTypeId, modifiedTableId, eventDate}=req.body
 
-    let select = ` SELECT date_format(log.eventDate,'%d/%m/%Y') as dateEvent,time_format(log.eventDate,
-                    '%H:%i') as hourEvent , tableData.name as modifiedTableId, user.userName as userId,
-                    eventType.name as eventTypeId FROM log
-                    INNER JOIN tabledata ON log.modifiedTableId= tableData.tableDataId
-                    INNER JOIN user ON log.userId= user.userId
-                    INNER JOIN eventtype  ON log.eventTypeId= eventType.eventTypeId`
+    let select = ` SELECT date_format(Log.eventDate,'%d/%m/%Y') as dateEvent,time_format(Log.eventDate,
+                    '%H:%i') as hourEvent , TableData.name as modifiedTableId, User.userName as userId,
+                    EventType.name as eventTypeId FROM Log
+                    INNER JOIN TableData ON Log.modifiedTableId= TableData.tableDataId
+                    INNER JOIN User ON Log.userId= User.userId
+                    INNER JOIN EventType  ON Log.eventTypeId= EventType.eventTypeId`
     let where= ' WHERE '
     let and = ' AND '
-    let f1= ` log.eventTypeId=${eventTypeId}   `
-    let f2=` log.modifiedTableId=${modifiedTableId} `
-    let f3 = `log.eventDate LIKE '${eventDate}%'`
+    let f1= ` Log.eventTypeId=${eventTypeId}   `
+    let f2=` Log.modifiedTableId=${modifiedTableId} `
+    let f3 = `Log.eventDate LIKE '${eventDate}%'`
 
         if(eventDate!="" ){ 
            if(modifiedTableId!="" && eventTypeId!="") 
