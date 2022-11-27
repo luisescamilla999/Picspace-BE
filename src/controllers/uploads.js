@@ -30,7 +30,7 @@ const upload = async (req, res = response) => {
   
     // Si hay imagen
     // Obtener el id de la ultima imagen de  la base de datos
-    const [imageId,] = await db.query("select MAX(imageId) as id from image");
+    const [imageId,] = await db.query("select MAX(imageId) as id from Image");
     let { id } = imageId[0];
 
     if (id !== null) {
@@ -50,7 +50,7 @@ const upload = async (req, res = response) => {
     };
 
     // Insertar la imagen en la base de datos
-    await db.query('INSERT INTO image set?',[image]);
+    await db.query('INSERT INTO Image set?',[image]);
     
     // Retornar el estado de la operacion
     res.status(200).json({

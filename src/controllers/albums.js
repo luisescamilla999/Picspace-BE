@@ -9,7 +9,7 @@ const newAlbum = async (req = request, res = response) => {
     const { ownerUserId } = req.params
 
     try {
-        let [albumId,] = await db.query("select MAX(albumId) as id from album");
+        let [albumId,] = await db.query("select MAX(albumId) as id from Album");
         let { id } = albumId[0];
 
         if (id !== null) {
@@ -25,12 +25,13 @@ const newAlbum = async (req = request, res = response) => {
             ownerUserId
         };
 
-        await db.query('INSERT INTO album set?', [album]);
+        await db.query('INSERT INTO Album set?', [album]);
 
         res.status(200).json({ ok: true, msg: "Se creo el album correctamente" });
 
     } catch (error) {
-        res.status(404).json(CONS.SQLErrors(error.sqlMessage));
+        console.log(error)
+        res.status(400).json(CONS.SQLErrors(error.sqlMessage));
     }
 }
 
@@ -40,10 +41,10 @@ const deleteAlbum = async (req = request, res = response) => {
 
     try {
         console.log(`select url from image where albumId = ${idAlbum}`)
-        let [rows,] = await db.query(`select url from image where albumId = ${idAlbum}`);
+        let [rows,] = await db.query(`select url from Image where albumId = ${idAlbum}`);
 
         if (rows.length == 0) {
-            db.query(`DELETE from album WHERE albumId = ${idAlbum}`)
+            db.query(`DELETE from Album WHERE albumId = ${idAlbum}`)
             res.status(200).json({ ok: true, msg: 'Todos los archivos se eliminaron del servidor' })
         } else {
             const files = []
@@ -55,7 +56,7 @@ const deleteAlbum = async (req = request, res = response) => {
             Promise.all(files.map(file => fs.unlink(file)))
                 .then(() => {
                     db.query(`DELETE from Image WHERE albumId = ${idAlbum}`)
-                    db.query(`DELETE from album WHERE albumId = ${idAlbum}`)
+                    db.query(`DELETE from Album WHERE albumId = ${idAlbum}`)
                     console.log("una vez")
                     res.status(200).json({ ok: true, msg: 'Todos los archivos se eliminaron del servidor' })
                 })
@@ -65,6 +66,7 @@ const deleteAlbum = async (req = request, res = response) => {
         }
 
     } catch (error) {
+        console.log(error)
         res.status(404).json(CONS.SQLErrors(error.sqlMessage));
     }
 
